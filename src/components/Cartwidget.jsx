@@ -2,9 +2,9 @@ import { FaShoppingCart } from 'react-icons/fa';
 
 const CartWidget = () => {
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
+    <div>
       <FaShoppingCart size={20} />
-      <span style={{ marginLeft: '5px' }}>6</span> {/* Número de productos */}
+      <span style={{ marginLeft: "5px" }}>6</span>
     </div>
   );
 };

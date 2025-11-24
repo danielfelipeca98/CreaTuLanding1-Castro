@@ -1,23 +1,17 @@
-import CartWidget from './Cartwidget';
-
+import { NavLink, Link } from "react-router-dom";
+import CartWidget from "./CartWidget.jsx";
 
 const NavBar = () => {
   return (
-    <nav style={{
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      padding: '10px 20px',
-      backgroundColor: '#eeeeeeff',
-
-     }}>
-      <div>
+    <nav style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px" }}>
+      <Link to="/">
         <h2>Daniel Shop</h2>
-      </div>
+      </Link>
       <div>
-        <a href="#" style={{ margin: '0 10px' }}>Inicio</a>
-        <a href="#" style={{ margin: '0 10px' }}>Productos</a>
-        <a href="#" style={{ margin: '0 10px' }}>Contacto</a>
+        <NavLink to="/" style={{ margin: "0 10px" }}>Inicio</NavLink>
+        <NavLink to="/category/remeras" style={{ margin: "0 10px" }}>Remeras</NavLink>
+        <NavLink to="/category/pantalones" style={{ margin: "0 10px" }}>Pantalones</NavLink>
+        <NavLink to="/category/zapatillas" style={{ margin: "0 10px" }}>Zapatillas</NavLink>
       </div>
       <CartWidget />
     </nav>
