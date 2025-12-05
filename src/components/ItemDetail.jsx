@@ -1,14 +1,31 @@
-import React from "react";
+import { useState } from "react";
+import ItemCount from "./ItemCount.jsx";
+import { useCart } from "../context/CartContext.jsx";
+
 const ItemDetail = ({ product }) => {
-  if (!product) return <p>Producto no encontrado</p>;
+  const { addToCart } = useCart();
+  const [added, setAdded] = useState(false);
+
+  const handleAdd = (quantity) => {
+    addToCart(product, quantity);
+    setAdded(true);
+  };
 
   return (
-    <div>
-      <h2>{product.title}</h2>
-      <p>Categoría: {product.category}</p>
+    <>
+      <img src={product.img} alt={product.name} />
+      <h2>{product.name}</h2>
       <p>Precio: ${product.price}</p>
-      <button>Agregar al carrito</button>
-    </div>
+      <p>Categoría: {product.category}</p>
+
+      {!added ? (
+        <ItemCount initial={1} stock={product.stock || 10} onAdd={handleAdd} />
+      ) : (
+        <a href="/cart">
+          <button>Ir al carrito</button>
+        </a>
+      )}
+    </>
   );
 };
 

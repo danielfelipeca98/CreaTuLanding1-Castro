@@ -1,10 +1,13 @@
-import { FaShoppingCart } from 'react-icons/fa';
+import { FaShoppingCart } from "react-icons/fa";
+import { useCart } from "../context/CartContext.jsx";
 
 const CartWidget = () => {
+  const { totalItems } = useCart();
+
   return (
-    <div>
+    <div className="cart-widget">
       <FaShoppingCart size={20} />
-      <span style={{ marginLeft: "5px" }}>6</span>
+      <span>{totalItems()}</span>
     </div>
   );
 };

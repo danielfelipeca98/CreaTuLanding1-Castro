@@ -1,25 +1,35 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import ItemList from "../components/ItemList.jsx";
-import { getProducts } from "../data/products.js";
+import { getProductsFromFirestore, getProductsByCategoryFromFirestore } from "../services/firestoreService.js";
+import { useParams } from "react-router-dom";
 
 const ItemListContainer = () => {
-  const { categoryId } = useParams(); // ← categoryId se obtiene desde useParams()
-  const [items, setItems] = useState([]);
+  const { categoryId } = useParams();
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getProducts().then((res) => {
-      const filtered = categoryId
-        ? res.filter((prod) => prod.category === categoryId)
-        : res;
-      setItems(filtered);
-    });
-  }, [categoryId]); // ← categoryId en dependencias para actualizar al cambiar la URL
+    setLoading(true);
+    const fetchProducts = async () => {
+      try {
+        const data = categoryId 
+          ? await getProductsByCategoryFromFirestore(categoryId)
+          : await getProductsFromFirestore();
+        setProducts(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProducts();
+  }, [categoryId]);
+
+  if (loading) return <p>Cargando productos...</p>;
 
   return (
-    <div>
-      <h3>{categoryId ? `Categoría: ${categoryId}` : "Catálogo completo"}</h3>
-      <ItemList products={items} />
+    <div className="item-list">
+      <ItemList products={products} />
     </div>
   );
 };
